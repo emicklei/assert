@@ -14,6 +14,11 @@ type Operand struct {
 	comparator Comparator
 }
 
+// CompareUsing changes the current Comparator
+func (o *Operand) CompareUsing(c Comparator) {
+	o.comparator = c
+}
+
 // Equals checks whether the value we have got is equal to the value we want.
 func (o Operand) Equals(want interface{}) {
 	not := Not{o.comparator}
