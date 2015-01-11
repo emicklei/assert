@@ -62,8 +62,8 @@ func (o Operand) IsNil() {
 // IsTrue checks whether the value is true
 // Use Not().IsTrue() to check against false
 func (o Operand) IsTrue() {
-	if o.comparator.Compare(o.value, false) {
-		o.a.t.Errorf("got [%v] for \"%s\" but want [false]", o.value, o.label)
+	if o.comparator.Compare(o.value, false) { // i.e fail if !true
+		o.a.t.Errorf("got [%v] for \"%s\" but want [true]", o.value, o.label)
 	}
 }
 

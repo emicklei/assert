@@ -36,6 +36,10 @@ func TestStringIsKindOfInt(t *testing.T) {
 	}
 }
 
+func TestIsTrue(t *testing.T) {
+	Asser(t, "bool", true).IsTrue()
+}
+
 func TestNot(t *testing.T) {
 	Asser(t, "bool", false).Not().IsTrue()
 }
