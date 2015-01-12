@@ -1,5 +1,9 @@
 package assert
 
+// Copyright 2015 Ernest Micklei. All rights reserved.
+// Use of this source code is governed by a license
+// that can be found in the LICENSE file.
+
 import "reflect"
 
 // Operand represent a value
@@ -14,9 +18,9 @@ type Operand struct {
 	comparator Comparator
 }
 
-// CompareUsing changes the current Comparator
-func (o *Operand) CompareUsing(c Comparator) {
-	o.comparator = c
+// CompareUsing returns a copy Operand that will use the Comparator.
+func (o Operand) CompareUsing(c Comparator) Operand {
+	return Operand{o.a, o.label, o.value, c}
 }
 
 // Equals checks whether the value we have got is equal to the value we want.
@@ -54,8 +58,8 @@ func (o Operand) IsKindOf(v interface{}) {
 // IsNil checks whether the value is nil
 // Use Not().IsNil() to check that the value is not nil
 func (o Operand) IsNil() {
-	if o.value != nil {
-		o.a.t.Errorf("got [%v] for \"%s\"", o.value, o.label)
+	if !o.comparator.Compare(o.value, nil) {
+		o.a.t.Errorf("got [%v] for \"%s\" but want [nil]", o.value, o.label)
 	}
 }
 

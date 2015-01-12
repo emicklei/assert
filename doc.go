@@ -1,11 +1,11 @@
 /*
-Package assert, a library for writing unit tests with minimal coding effort
+Package assert, for writing checks in unit tests
 
 Reason for creating it:
 
-	- code for unit testing must be "close" to the standard ; no Suites, DSL or other functional weirdness.
+	- code for unit testing must be "close" to the standard ; non intruisive
 	- if a check fails then try hard to explain why and what went wrong
-	- allow checks of all integer types against int, e.g. int32(42) == 42
+	- allow checks of all integer types against int
 	- allow for custom comparators
 	- compact but still readable
 

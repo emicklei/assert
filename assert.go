@@ -1,14 +1,5 @@
 package assert
 
-//Assert is yet another package for writing unit tests in Go.
-
-//Reason for creating it:
-//- code for unit testing must be "close" to the standard ; no Suites, DSL or other functional weirdness.
-//- if a check fails then try hard to explain why and what went wrong
-//- allow checks of all integer types against int, e.g. int32(42) == 42
-//- allow for custom comparators
-//- compact but still readable
-
 // Copyright 2015 Ernest Micklei. All rights reserved.
 // Use of this source code is governed by a license
 // that can be found in the LICENSE file.

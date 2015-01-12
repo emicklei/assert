@@ -1,5 +1,7 @@
 package assert
 
+// clear && go test -coverprofile=coverage.out && go tool cover -func=coverage.out
+
 type testReporter struct {
 	template string
 	args     []interface{}

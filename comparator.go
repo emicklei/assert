@@ -1,5 +1,9 @@
 package assert
 
+// Copyright 2015 Ernest Micklei. All rights reserved.
+// Use of this source code is governed by a license
+// that can be found in the LICENSE file.
+
 // Comparator specifies the function to compare two values
 type Comparator interface {
 	// Return the result of comparing left and right

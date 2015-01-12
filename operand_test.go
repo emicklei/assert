@@ -1,6 +1,9 @@
 package assert
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestIntEqualsInt(t *testing.T) {
 	Assert{t}.That("i", 10).Equals(10)
@@ -52,17 +55,54 @@ func TestNot_Fail(t *testing.T) {
 	}
 }
 
-//// clear && go test -v -test.run TestStringEqualsString_Fail ...script
-//func TestStringEqualsString_Fail(t *testing.T) {
-//	Assert{t}.That("s", "abcd").Equals("abc")
-//}
+func TestIsNil(t *testing.T) {
+	var n error
+	Asser(t, "nil", n).IsNil()
+}
 
-//// clear && go test -v -test.run TestIntEqualsInt_Fail ...script
-//func TestIntEqualsInt_Fail(t *testing.T) {
-//	Assert{t}.That("i", 24).Equals(10)
-//}
+func TestIsNil_Fail(t *testing.T) {
+	var n error
+	r := new(testReporter)
+	Asser(r, "nil", n).Not().IsNil()
+	if len(r.template) == 0 {
+		t.Fail()
+	}
+}
 
-//// clear && go test -v -test.run TestIntEqualsInt_WrongType ...script
-//func TestIntEqualsInt_WrongType(t *testing.T) {
-//	Assert{t}.That("i", 1.0).Equals(1)
-//}
+func TestNotNot(t *testing.T) {
+	That(t, "not-not", true).Not().Not().IsTrue()
+}
+
+func TestStringEqualsString_Fail(t *testing.T) {
+	r := new(testReporter)
+	Assert{r}.That("s", "abcd").Equals("abc")
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+}
+
+func TestIntEqualsInt_Fail(t *testing.T) {
+	r := new(testReporter)
+	Assert{r}.That("i", 24).Equals(10)
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+}
+
+func TestCompareUsing(t *testing.T) {
+	Asser(t, "insensitive", "ABC").CompareUsing(caseInsensitiveStringEquals{}).Equals("abc")
+}
+
+type caseInsensitiveStringEquals struct{}
+
+func (c caseInsensitiveStringEquals) Compare(left, right interface{}) bool {
+	s_left, ok := left.(string)
+	if !ok {
+		return false
+	}
+	s_right, ok := right.(string)
+	if !ok {
+		return false
+	}
+	return strings.EqualFold(s_left, s_right)
+}

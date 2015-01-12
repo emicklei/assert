@@ -1,7 +1,7 @@
 assert
 ==========
 
-Assert is package for writing unit tests in Go.
+Go package for writing checks in unit tests
 
 
 - [Documentation on godoc.org](http://godoc.org/github.com/emicklei/assert)
