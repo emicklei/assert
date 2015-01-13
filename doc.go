@@ -5,9 +5,8 @@ Reason for creating it:
 
 	- code for unit testing must be "close" to the standard ; non intruisive
 	- if a check fails then try hard to explain why and what went wrong
-	- allow checks of all integer types against int
-	- allow for custom comparators
-	- compact but still readable
+	- allow for custom operators
+	- compact but still human readable
 
 
 Example
