@@ -1,4 +1,4 @@
-assert
+Asser(t
 ==========
 
 Go package for writing checks in unit tests

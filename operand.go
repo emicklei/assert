@@ -9,7 +9,7 @@ import "reflect"
 // Operand represent a value
 type Operand struct {
 	// this reference is used to report a test failure
-	a Assert
+	a testingA
 	// description of the value, typically a variable or field name
 	label string
 	// actual value of any type

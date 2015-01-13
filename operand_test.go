@@ -6,34 +6,34 @@ import (
 )
 
 func TestIntEqualsInt(t *testing.T) {
-	Assert{t}.That("i", 10).Equals(10)
+	testingA{t}.That("i", 10).Equals(10)
 }
 
 func TestStringEqualsString(t *testing.T) {
-	Assert{t}.That("s", "abcd").Equals("abcd")
+	testingA{t}.That("s", "abcd").Equals("abcd")
 }
 
 func TestInt32EqualsInt(t *testing.T) {
-	Assert{t}.That("int", int32(32)).Equals(32)
+	testingA{t}.That("int", int32(32)).Equals(32)
 }
 
 func TestStringEqualsInt(t *testing.T) {
 	r := new(testReporter)
-	Assert{r}.That("string", "string").Equals(32)
+	testingA{r}.That("string", "string").Equals(32)
 	if len(r.args) == 0 {
 		t.Fail()
 	}
 	// tricky, we use Assert to test an assert feature
-	Assert{t}.That("arg.1", r.args[2]).Equals("string")
+	testingA{t}.That("arg.1", r.args[2]).Equals("string")
 }
 
 func TestStringIsKindOfString(t *testing.T) {
-	Assert{t}.That("string", "string").IsKindOf("other")
+	testingA{t}.That("string", "string").IsKindOf("other")
 }
 
 func TestStringIsKindOfInt(t *testing.T) {
 	r := new(testReporter)
-	Assert{r}.That("string", "string").IsKindOf(42)
+	testingA{r}.That("string", "string").IsKindOf(42)
 	if len(r.args) == 0 {
 		t.Fail()
 	}
@@ -75,7 +75,7 @@ func TestNotNot(t *testing.T) {
 
 func TestStringEqualsString_Fail(t *testing.T) {
 	r := new(testReporter)
-	Assert{r}.That("s", "abcd").Equals("abc")
+	testingA{r}.That("s", "abcd").Equals("abc")
 	if len(r.args) == 0 {
 		t.Fail()
 	}
@@ -83,7 +83,7 @@ func TestStringEqualsString_Fail(t *testing.T) {
 
 func TestIntEqualsInt_Fail(t *testing.T) {
 	r := new(testReporter)
-	Assert{r}.That("i", 24).Equals(10)
+	testingA{r}.That("i", 24).Equals(10)
 	if len(r.args) == 0 {
 		t.Fail()
 	}
