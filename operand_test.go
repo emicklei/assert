@@ -1,9 +1,19 @@
 package assert
 
 import (
+	"errors"
 	"strings"
 	"testing"
 )
+
+func TestAbsentMapValueEqualsInt(t *testing.T) {
+	r := new(testReporter)
+	var data map[string]interface{}
+	testingA{r}.That("", data["missing"]).Equals(1)
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+}
 
 func TestIntEqualsInt(t *testing.T) {
 	testingA{t}.That("i", 10).Equals(10)
@@ -43,6 +53,18 @@ func TestIsTrue(t *testing.T) {
 	Asser(t, "bool", true).IsTrue()
 }
 
+func TestIsFalse(t *testing.T) {
+	Asser(t, "bool", false).IsFalse()
+}
+
+func TestIsFalse_Fail(t *testing.T) {
+	r := new(testReporter)
+	Asser(r, "bool", true).IsFalse()
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+}
+
 func TestNot(t *testing.T) {
 	Asser(t, "bool", false).Not().IsTrue()
 }
@@ -69,6 +91,20 @@ func TestIsNil_Fail(t *testing.T) {
 	}
 }
 
+func TestIsNotNil(t *testing.T) {
+	nn := errors.New("not")
+	Asser(t, "notnil", nn).IsNotNil()
+}
+
+func TestIsNotNil_Fail(t *testing.T) {
+	var nn error
+	r := new(testReporter)
+	Asser(r, "notnil", nn).IsNotNil()
+	if len(r.template) == 0 {
+		t.Fail()
+	}
+}
+
 func TestNotNot(t *testing.T) {
 	That(t, "not-not", true).Not().Not().IsTrue()
 }
@@ -87,6 +123,14 @@ func TestIntEqualsInt_Fail(t *testing.T) {
 	if len(r.args) == 0 {
 		t.Fail()
 	}
+}
+
+func TestLogCall(t *testing.T) {
+	doLogCall(t)
+}
+
+func doLogCall(t *testing.T) {
+	logCall(t, "TestLogCall")
 }
 
 func TestCompareUsing(t *testing.T) {

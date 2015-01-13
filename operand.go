@@ -33,12 +33,15 @@ func (o Operand) Equals(want interface{}) {
 		_, ok := want.(int)
 		if ok {
 			leftType := reflect.TypeOf(o.value)
-			rightValue := reflect.ValueOf(want)
-			convertedRightValue := rightValue.Convert(leftType)
-			if reflect.ValueOf(o.value) == convertedRightValue {
-				return
+			if leftType != nil { // if left is nil
+				rightValue := reflect.ValueOf(want)
+				convertedRightValue := rightValue.Convert(leftType)
+				if reflect.ValueOf(o.value) == convertedRightValue {
+					return
+				}
 			}
 		}
+		logCall(o.a.t, "Equals")
 		o.a.t.Errorf("got [%v] (%T) for \"%s\" but want [%v] (%T)",
 			o.value, o.value,
 			o.label,
@@ -51,23 +54,40 @@ func (o Operand) IsKindOf(v interface{}) {
 	leftType := reflect.TypeOf(o.value)
 	rightType := reflect.TypeOf(v)
 	if leftType != rightType {
+		logCall(o.a.t, "IsKindOf")
 		o.a.t.Errorf("got [%v] for \"%s\" but want [%v]", leftType, o.label, rightType)
 	}
 }
 
 // IsNil checks whether the value is nil
-// Use Not().IsNil() to check that the value is not nil
 func (o Operand) IsNil() {
 	if !o.operator.Apply(o.value, nil) {
+		logCall(o.a.t, "IsNil")
 		o.a.t.Errorf("got [%v] for \"%s\" but want [nil]", o.value, o.label)
 	}
 }
 
+// IsNotNil checks whether the value is nil
+func (o Operand) IsNotNil() {
+	if o.operator.Apply(o.value, nil) {
+		logCall(o.a.t, "IsNotNil")
+		o.a.t.Errorf("got unexpected [%v] for \"%s\"", o.value, o.label)
+	}
+}
+
 // IsTrue checks whether the value is true
-// Use Not().IsTrue() to check against false
 func (o Operand) IsTrue() {
 	if o.operator.Apply(o.value, false) { // i.e fail if !true
+		logCall(o.a.t, "IsTrue")
 		o.a.t.Errorf("got [%v] for \"%s\" but want [true]", o.value, o.label)
+	}
+}
+
+// IsFalse checks whether the value is false
+func (o Operand) IsFalse() {
+	if o.operator.Apply(o.value, true) { // i.e fail if !false
+		logCall(o.a.t, "IsFalse")
+		o.a.t.Errorf("got [%v] for \"%s\" but want [false]", o.value, o.label)
 	}
 }
 

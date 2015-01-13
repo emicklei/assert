@@ -8,6 +8,7 @@ package assert
 // this exists for testing Assert using a mock.
 type testingT interface {
 	Errorf(string, ...interface{})
+	Log(args ...interface{})
 }
 
 // testingA decorates a *testing.T to create an Operand using That(..) and do error logging
