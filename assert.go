@@ -17,12 +17,12 @@ type testingA struct {
 
 // That creates an Operand on the value we have got and describes the variable that is being testing.
 func (a testingA) That(label string, got interface{}) Operand {
-	return Operand{a, label, got, EqualsComparator{}}
+	return Operand{a, label, got, equals{}}
 }
 
 // That creates an Operand on the value we have got and describes the variable that is being testing.
 func That(t testingT, label string, got interface{}) Operand {
-	return Operand{testingA{t}, label, got, EqualsComparator{}}
+	return Operand{testingA{t}, label, got, equals{}}
 }
 
 // Assert creates an Operand on a value that needs to be checked.

@@ -90,12 +90,12 @@ func TestIntEqualsInt_Fail(t *testing.T) {
 }
 
 func TestCompareUsing(t *testing.T) {
-	Asser(t, "insensitive", "ABC").CompareUsing(caseInsensitiveStringEquals{}).Equals("abc")
+	Asser(t, "insensitive", "ABC").OperateUsing(caseInsensitiveStringEquals{}).Equals("abc")
 }
 
 type caseInsensitiveStringEquals struct{}
 
-func (c caseInsensitiveStringEquals) Compare(left, right interface{}) bool {
+func (c caseInsensitiveStringEquals) Apply(left, right interface{}) bool {
 	s_left, ok := left.(string)
 	if !ok {
 		return false

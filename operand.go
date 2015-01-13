@@ -14,19 +14,19 @@ type Operand struct {
 	label string
 	// actual value of any type
 	value interface{}
-	// used to compare two values
-	comparator Comparator
+	// used to operate on two values
+	operator RelationalOperator
 }
 
-// CompareUsing returns a copy Operand that will use the Comparator.
-func (o Operand) CompareUsing(c Comparator) Operand {
-	return Operand{o.a, o.label, o.value, c}
+// OperateUsing returns a copy Operand that will use the RelationalOperator.
+func (o Operand) OperateUsing(r RelationalOperator) Operand {
+	return Operand{o.a, o.label, o.value, r}
 }
 
 // Equals checks whether the value we have got is equal to the value we want.
 func (o Operand) Equals(want interface{}) {
-	not := Not{o.comparator}
-	if not.Compare(o.value, want) {
+	not := not{o.operator}
+	if not.Apply(o.value, want) {
 		// if the right value (what we want) has int type
 		// then try convert the right value using reflection and re-compare
 		// See https://golang.org/ref/spec#Numeric_types
@@ -58,7 +58,7 @@ func (o Operand) IsKindOf(v interface{}) {
 // IsNil checks whether the value is nil
 // Use Not().IsNil() to check that the value is not nil
 func (o Operand) IsNil() {
-	if !o.comparator.Compare(o.value, nil) {
+	if !o.operator.Apply(o.value, nil) {
 		o.a.t.Errorf("got [%v] for \"%s\" but want [nil]", o.value, o.label)
 	}
 }
@@ -66,12 +66,12 @@ func (o Operand) IsNil() {
 // IsTrue checks whether the value is true
 // Use Not().IsTrue() to check against false
 func (o Operand) IsTrue() {
-	if o.comparator.Compare(o.value, false) { // i.e fail if !true
+	if o.operator.Apply(o.value, false) { // i.e fail if !true
 		o.a.t.Errorf("got [%v] for \"%s\" but want [true]", o.value, o.label)
 	}
 }
 
 // Not creates a new Operand with a negated version of its comparator.
 func (o Operand) Not() Operand {
-	return Operand{o.a, o.label, o.value, Not{o.comparator}}
+	return Operand{o.a, o.label, o.value, not{o.operator}}
 }
