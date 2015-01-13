@@ -6,7 +6,7 @@ package assert
 
 // RelationalOperator specifies the function that can operate on two values
 type RelationalOperator interface {
-	// Return the result of comparing left and right
+	// Return the result of applying the two values left and right
 	Apply(left, right interface{}) bool
 }
 
