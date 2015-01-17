@@ -34,7 +34,7 @@ Snippets
 	Asser(t,"job",job).IsKindOf(new(Job))
 
 	Asser(t,"isOnline",isOnline).Not().IsTrue()
-	Asser(t,"policy",policy).Not().IsNil()
+	Asser(t,"names", []string{}).Len(0)
 
 or without using the dot import:
 

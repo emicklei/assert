@@ -1,5 +1,9 @@
 package assert
 
+// Copyright 2015 Ernest Micklei. All rights reserved.
+// Use of this source code is governed by a license
+// that can be found in the LICENSE file.
+
 import (
 	"errors"
 	"strings"
@@ -149,4 +153,54 @@ func (c caseInsensitiveStringEquals) Apply(left, right interface{}) bool {
 		return false
 	}
 	return strings.EqualFold(s_left, s_right)
+}
+
+type understandsLen struct{}
+
+func (u understandsLen) Len() int { return 0 }
+
+func TestLen(t *testing.T) {
+	list := []string{}
+	Asser(t, "list", list).Len(0)
+	Asser(t, "list", " ").Len(1)
+	Asser(t, "list", map[string]int{}).Len(0)
+	ch := make(chan int)
+	Asser(t, "chan", ch).Len(0)
+	Asser(t, "custom", understandsLen{}).Len(0)
+}
+
+func TestLen_FailSlice(t *testing.T) {
+	r := new(testReporter)
+	list := []string{}
+	testingA{r}.That("list", list).Len(1)
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+}
+
+func TestLen_FailNoLen(t *testing.T) {
+	r := new(testReporter)
+	testingA{r}.That("reporter", r).Len(0)
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+}
+
+func TestLen_FailWrongLen(t *testing.T) {
+	r := new(testReporter)
+	custom := understandsLen{}
+	testingA{r}.That("custom", custom).Len(42)
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+}
+
+func TestSliceEqualsInt_Fail(t *testing.T) {
+	r := new(testReporter)
+	list := []string{}
+	testingA{r}.That("list", list).Equals(1)
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+	//t.Logf(r.template, r.args...)
 }

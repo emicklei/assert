@@ -33,8 +33,19 @@ func (o Operand) Equals(want interface{}) {
 		_, ok := want.(int)
 		if ok {
 			leftType := reflect.TypeOf(o.value)
-			if leftType != nil { // if left is nil
+			if leftType != nil { // if left is not nil
 				rightValue := reflect.ValueOf(want)
+				// handle panic of convert
+				defer func() {
+					if err := recover(); err != nil {
+						o.a.t.Errorf("got [%v] (%T) for \"%s\" but test failed:%v",
+							o.value,
+							o.value,
+							o.label,
+							err)
+						return
+					}
+				}()
 				convertedRightValue := rightValue.Convert(leftType)
 				if reflect.ValueOf(o.value) == convertedRightValue {
 					return
@@ -94,4 +105,35 @@ func (o Operand) IsFalse() {
 // Not creates a new Operand with a negated version of its comparator.
 func (o Operand) Not() Operand {
 	return Operand{o.a, o.label, o.value, not{o.operator}}
+}
+
+// Len checks that len(value) or value.Len() is equals to the given length.
+// It operates on Array, Chan, Map, Slice, or String and objects that implement Len() int.
+func (o Operand) Len(want int) {
+	// panic catcher
+	defer func() {
+		if err := recover(); err != nil {
+			// try calling Len
+			rt := reflect.TypeOf(o.value)
+			rf, ok := rt.MethodByName("Len")
+			if !ok {
+				logCall(o.a.t, "Len")
+				o.a.t.Errorf("got [%v] for \"%s\" but it does not implement Len() int", o.value, o.label)
+				return
+			}
+			rv := reflect.ValueOf(o.value)
+			gotvs := rf.Func.Call([]reflect.Value{rv})
+			got := int(gotvs[0].Int())
+			if !o.operator.Apply(got, want) {
+				logCall(o.a.t, "Len")
+				o.a.t.Errorf("got [%v] for \"%s\" but want [%d]", got, o.label, want)
+			}
+		}
+	}()
+	rv := reflect.ValueOf(o.value)
+	got := rv.Len()
+	if !o.operator.Apply(got, want) {
+		logCall(o.a.t, "Len")
+		o.a.t.Errorf("got [%v] for \"%s\" but want [%d]", got, o.label, want)
+	}
 }
