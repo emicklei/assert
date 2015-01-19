@@ -7,7 +7,7 @@ package assert
 // testingT defines the api that is used from testing.T
 // this exists for testing Assert using a mock.
 type testingT interface {
-	Errorf(string, ...interface{})
+	Fatalf(string, ...interface{})
 	Log(args ...interface{})
 }
 
