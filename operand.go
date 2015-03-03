@@ -47,7 +47,8 @@ func (o Operand) Equals(want interface{}) {
 					}
 				}()
 				convertedRightValue := rightValue.Convert(leftType)
-				if reflect.ValueOf(o.value) == convertedRightValue {
+				// cannot compare reflect.Value instances
+				if reflect.ValueOf(o.value).Int() == convertedRightValue.Int() {
 					return
 				}
 			}
