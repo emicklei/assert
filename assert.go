@@ -30,12 +30,3 @@ func That(t testingT, label string, got interface{}) Operand {
 func Assert(t testingT, label string, value interface{}) Operand {
 	return testingA{t}.That(label, value)
 }
-
-// Asser is more a syntax trick to shorten the amount of code needed to create an Operand.
-// So instead of:
-//		assert.That("age",age).Equals(42)
-// or
-//  	Assert(t,"age",age).Equals(42)
-// you can write:
-//		Asser(t,"age",age).Equals(42)
-var Asser = Assert

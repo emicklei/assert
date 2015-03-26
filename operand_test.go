@@ -37,7 +37,7 @@ func TestStringEqualsInt(t *testing.T) {
 	if len(r.args) == 0 {
 		t.Fail()
 	}
-	// tricky, we use Assert to test an assert feature
+	// tricky, we use Assertt to test an assert feature
 	testingA{t}.That("arg.1", r.args[2]).Equals("string")
 }
 
@@ -54,28 +54,28 @@ func TestStringIsKindOfInt(t *testing.T) {
 }
 
 func TestIsTrue(t *testing.T) {
-	Asser(t, "bool", true).IsTrue()
+	Assert(t, "bool", true).IsTrue()
 }
 
 func TestIsFalse(t *testing.T) {
-	Asser(t, "bool", false).IsFalse()
+	Assert(t, "bool", false).IsFalse()
 }
 
 func TestIsFalse_Fail(t *testing.T) {
 	r := new(testReporter)
-	Asser(r, "bool", true).IsFalse()
+	Assert(r, "bool", true).IsFalse()
 	if len(r.args) == 0 {
 		t.Fail()
 	}
 }
 
 func TestNot(t *testing.T) {
-	Asser(t, "bool", false).Not().IsTrue()
+	Assert(t, "bool", false).Not().IsTrue()
 }
 
 func TestNot_Fail(t *testing.T) {
 	r := new(testReporter)
-	Asser(r, "bool", true).Not().IsTrue()
+	Assert(r, "bool", true).Not().IsTrue()
 	if len(r.args) == 0 {
 		t.Fail()
 	}
@@ -83,13 +83,13 @@ func TestNot_Fail(t *testing.T) {
 
 func TestIsNil(t *testing.T) {
 	var n error
-	Asser(t, "nil", n).IsNil()
+	Assert(t, "nil", n).IsNil()
 }
 
 func TestIsNil_Fail(t *testing.T) {
 	var n error
 	r := new(testReporter)
-	Asser(r, "nil", n).Not().IsNil()
+	Assert(r, "nil", n).Not().IsNil()
 	if len(r.template) == 0 {
 		t.Fail()
 	}
@@ -97,13 +97,13 @@ func TestIsNil_Fail(t *testing.T) {
 
 func TestIsNotNil(t *testing.T) {
 	nn := errors.New("not")
-	Asser(t, "notnil", nn).IsNotNil()
+	Assert(t, "notnil", nn).IsNotNil()
 }
 
 func TestIsNotNil_Fail(t *testing.T) {
 	var nn error
 	r := new(testReporter)
-	Asser(r, "notnil", nn).IsNotNil()
+	Assert(r, "notnil", nn).IsNotNil()
 	if len(r.template) == 0 {
 		t.Fail()
 	}
@@ -138,7 +138,7 @@ func doLogCall(t *testing.T) {
 }
 
 func TestCompareUsing(t *testing.T) {
-	Asser(t, "insensitive", "ABC").OperateUsing(caseInsensitiveStringEquals{}).Equals("abc")
+	Assert(t, "insensitive", "ABC").OperateUsing(caseInsensitiveStringEquals{}).Equals("abc")
 }
 
 type caseInsensitiveStringEquals struct{}
@@ -161,12 +161,12 @@ func (u understandsLen) Len() int { return 0 }
 
 func TestLen(t *testing.T) {
 	list := []string{}
-	Asser(t, "list", list).Len(0)
-	Asser(t, "list", " ").Len(1)
-	Asser(t, "list", map[string]int{}).Len(0)
+	Assert(t, "list", list).Len(0)
+	Assert(t, "list", " ").Len(1)
+	Assert(t, "list", map[string]int{}).Len(0)
 	ch := make(chan int)
-	Asser(t, "chan", ch).Len(0)
-	Asser(t, "custom", understandsLen{}).Len(0)
+	Assert(t, "chan", ch).Len(0)
+	Assert(t, "custom", understandsLen{}).Len(0)
 }
 
 func TestLen_FailSlice(t *testing.T) {
