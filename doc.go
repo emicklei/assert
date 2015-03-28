@@ -25,13 +25,13 @@ which will report
 
 Examples: (using the dot import)
 
-	Asser(t,"err",err).IsNil()
-	Asser(t,"isOffline",isOffline).IsTrue()
-	Asser(t,"country",country).Equals("NL")
-	Asser(t,"job",job).IsKindOf(new(Job))
-	Asser(t,"names", []string{}).Len(0)
+	Assert(t,"err",err).IsNil()
+	Assert(t,"isOffline",isOffline).IsTrue()
+	Assert(t,"country",country).Equals("NL")
+	Assert(t,"job",job).IsKindOf(new(Job))
+	Assert(t,"names", []string{}).Len(0)
 
 	// you can negate a check
-	Asser(t,"isOnline",isOnline).Not().IsTrue()
+	Assert(t,"isOnline",isOnline).Not().IsTrue()
 */
 package assert
