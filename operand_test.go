@@ -31,6 +31,10 @@ func TestInt32EqualsInt(t *testing.T) {
 	testingA{t}.That("int", int32(32)).Equals(32)
 }
 
+func TestFloat32EqualsFloat64(t *testing.T) {
+	testingA{t}.That("float32", float32(32)).Equals(32.0)
+}
+
 func TestStringEqualsInt(t *testing.T) {
 	r := new(testReporter)
 	testingA{r}.That("string", "string").Equals(32)

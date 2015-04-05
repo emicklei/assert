@@ -53,6 +53,17 @@ func (o Operand) Equals(want interface{}) {
 				}
 			}
 		}
+		want64, ok := want.(float64)
+		if ok {
+			got64, is64 := o.value.(float64)
+			if is64 && got64 == want64 {
+				return
+			}
+			got32, is32 := o.value.(float32)
+			if is32 && float64(got32) == want64 {
+				return
+			}
+		}
 		logCall(o.a.t, "Equals")
 		o.a.t.Fatalf("got [%v] (%T) for \"%s\" but want [%v] (%T)",
 			o.value, o.value,
