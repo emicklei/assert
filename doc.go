@@ -33,5 +33,26 @@ Examples: (using the dot import)
 
 	// you can negate a check
 	Assert(t,"isOnline",isOnline).Not().IsTrue()
+
+You can create and use your own checks by implementing the RelationalOperator.
+
+	type caseInsensitiveStringEquals struct{}
+
+	func (c caseInsensitiveStringEquals) Apply(left, right interface{}) bool {
+		s_left, ok := left.(string)
+		if !ok {
+			return false
+		}
+		s_right, ok := right.(string)
+		if !ok {
+			return false
+		}
+		return strings.EqualFold(s_left, s_right)
+	}
+
+	func TestCompareUsing(t *testing.T) {
+		Assert(t, "insensitive", "ABC").OperateUsing(caseInsensitiveStringEquals{}).Equals("abc")
+	}
+
 */
 package assert

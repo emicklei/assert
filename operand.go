@@ -65,7 +65,7 @@ func (o Operand) Equals(want interface{}) {
 			}
 		}
 		logCall(o.a.t, "Equals")
-		o.a.t.Fatalf("got [%v] (%T) for \"%s\" but want [%v] (%T)",
+		o.a.t.Fatalf("\ngot [%v] (%T) for \"%s\" but want [%v] (%T)",
 			o.value, o.value,
 			o.label,
 			want, want)

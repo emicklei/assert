@@ -22,7 +22,7 @@ func logCall(t testingT, funcName string) {
 			break
 		}
 		if !insidePkg {
-			buffer.WriteString(fmt.Sprintf("%s() call at %s:%d", funcName, lastFile, lastLine))
+			buffer.WriteString(fmt.Sprintf("%s() call at \n%s:%d", funcName, lastFile, lastLine))
 			break
 		}
 		if strings.Index(file, "github.com/emicklei/assert") == -1 {
