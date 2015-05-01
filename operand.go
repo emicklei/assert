@@ -18,8 +18,8 @@ type Operand struct {
 	operator RelationalOperator
 }
 
-// OperateUsing returns a copy Operand that will use the RelationalOperator.
-func (o Operand) OperateUsing(r RelationalOperator) Operand {
+// With returns a copy Operand that will use the RelationalOperator.
+func (o Operand) With(r RelationalOperator) Operand {
 	return Operand{o.a, o.label, o.value, r}
 }
 

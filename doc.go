@@ -51,7 +51,7 @@ You can create and use your own checks by implementing the RelationalOperator.
 	}
 
 	func TestCompareUsing(t *testing.T) {
-		Assert(t, "insensitive", "ABC").OperateUsing(caseInsensitiveStringEquals{}).Equals("abc")
+		Assert(t, "insensitive", "ABC").With(caseInsensitiveStringEquals{}).Equals("abc")
 	}
 
 */

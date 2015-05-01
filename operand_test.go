@@ -142,7 +142,7 @@ func doLogCall(t *testing.T) {
 }
 
 func TestCompareUsing(t *testing.T) {
-	Assert(t, "insensitive", "ABC").OperateUsing(caseInsensitiveStringEquals{}).Equals("abc")
+	Assert(t, "insensitive", "ABC").With(caseInsensitiveStringEquals{}).Equals("abc")
 }
 
 type caseInsensitiveStringEquals struct{}
