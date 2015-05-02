@@ -25,44 +25,9 @@ func (o Operand) With(r RelationalOperator) Operand {
 
 // Equals checks whether the value we have got is equal to the value we want.
 func (o Operand) Equals(want interface{}) {
-	not := not{o.operator}
-	if not.Apply(o.value, want) {
-		// if the right value (what we want) has int type
-		// then try convert the right value using reflection and re-compare
-		// See https://golang.org/ref/spec#Numeric_types
-		_, ok := want.(int)
-		if ok {
-			leftType := reflect.TypeOf(o.value)
-			if leftType != nil { // if left is not nil
-				rightValue := reflect.ValueOf(want)
-				// handle panic of convert
-				defer func() {
-					if err := recover(); err != nil {
-						o.a.t.Fatalf("got [%v] (%T) for \"%s\" but test failed:%v",
-							o.value,
-							o.value,
-							o.label,
-							err)
-						return
-					}
-				}()
-				convertedRightValue := rightValue.Convert(leftType)
-				// cannot compare reflect.Value instances
-				if reflect.ValueOf(o.value).Int() == convertedRightValue.Int() {
-					return
-				}
-			}
-		}
-		want64, ok := want.(float64)
-		if ok {
-			got64, is64 := o.value.(float64)
-			if is64 && got64 == want64 {
-				return
-			}
-			got32, is32 := o.value.(float32)
-			if is32 && float64(got32) == want64 {
-				return
-			}
+	if !o.operator.Apply(o.value, want) {
+		if reflect.DeepEqual(o.value, want) {
+			return
 		}
 		logCall(o.a.t, "Equals")
 		o.a.t.Fatalf("\ngot [%v] (%T) for \"%s\" but want [%v] (%T)",
@@ -84,10 +49,19 @@ func (o Operand) IsKindOf(v interface{}) {
 
 // IsNil checks whether the value is nil
 func (o Operand) IsNil() {
-	if !o.operator.Apply(o.value, nil) {
-		logCall(o.a.t, "IsNil")
-		o.a.t.Fatalf("got [%v] for \"%s\" but want [nil]", o.value, o.label)
+	if o.operator.Apply(o.value, nil) {
+		return
+	} else {
+		// from github.com/go-check/check
+		switch v := reflect.ValueOf(o.value); v.Kind() {
+		case reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Ptr, reflect.Slice:
+			if v.IsNil() {
+				return
+			}
+		}
 	}
+	logCall(o.a.t, "IsNil")
+	o.a.t.Fatalf("got [%v] for \"%s\" but want [nil]", o.value, o.label)
 }
 
 // IsNotNil checks whether the value is nil
