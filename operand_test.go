@@ -28,7 +28,7 @@ func TestStringEqualsString(t *testing.T) {
 }
 
 func TestStringEqualsInt(t *testing.T) {
-	r := new(testReporter)
+	r := newTestReporter()
 	testingA{r}.That("string", "string").Equals(32)
 	if len(r.args) == 0 {
 		t.Fail()

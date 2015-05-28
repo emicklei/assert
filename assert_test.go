@@ -19,3 +19,12 @@ func (r *testReporter) Fatalf(template string, args ...interface{}) {
 }
 
 func (r *testReporter) Log(args ...interface{}) {}
+
+func newTestReporter() *testReporter {
+	t := new(testReporter)
+	// capture fatals
+	Fatalf = func(t testingT, format string, args ...interface{}) {
+		t.Fatalf(format, args...)
+	}
+	return t
+}

@@ -30,7 +30,7 @@ func (o Operand) Equals(want interface{}) {
 			return
 		}
 		logCall(o.a.t, "Equals")
-		o.a.t.Fatalf("\ngot [%v] (%T) for \"%s\" but want [%v] (%T)",
+		Fatalf(o.a.t, "\ngot [%v] (%T) for \"%s\" but want [%v] (%T)",
 			o.value, o.value,
 			o.label,
 			want, want)
@@ -43,7 +43,7 @@ func (o Operand) IsKindOf(v interface{}) {
 	rightType := reflect.TypeOf(v)
 	if leftType != rightType {
 		logCall(o.a.t, "IsKindOf")
-		o.a.t.Fatalf("got [%v] for \"%s\" but want [%v]", leftType, o.label, rightType)
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want [%v]", leftType, o.label, rightType)
 	}
 }
 
@@ -61,14 +61,14 @@ func (o Operand) IsNil() {
 		}
 	}
 	logCall(o.a.t, "IsNil")
-	o.a.t.Fatalf("got [%v] for \"%s\" but want [nil]", o.value, o.label)
+	Fatalf(o.a.t, "got [%v] for \"%s\" but want [nil]", o.value, o.label)
 }
 
 // IsNotNil checks whether the value is nil
 func (o Operand) IsNotNil() {
 	if o.operator.Apply(o.value, nil) {
 		logCall(o.a.t, "IsNotNil")
-		o.a.t.Fatalf("got unexpected [%v] for \"%s\"", o.value, o.label)
+		Fatalf(o.a.t, "got unexpected [%v] for \"%s\"", o.value, o.label)
 	}
 }
 
@@ -76,7 +76,7 @@ func (o Operand) IsNotNil() {
 func (o Operand) IsTrue() {
 	if o.operator.Apply(o.value, false) { // i.e fail if !true
 		logCall(o.a.t, "IsTrue")
-		o.a.t.Fatalf("got [%v] for \"%s\" but want [true]", o.value, o.label)
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want [true]", o.value, o.label)
 	}
 }
 
@@ -84,7 +84,7 @@ func (o Operand) IsTrue() {
 func (o Operand) IsFalse() {
 	if o.operator.Apply(o.value, true) { // i.e fail if !false
 		logCall(o.a.t, "IsFalse")
-		o.a.t.Fatalf("got [%v] for \"%s\" but want [false]", o.value, o.label)
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want [false]", o.value, o.label)
 	}
 }
 
@@ -104,7 +104,7 @@ func (o Operand) Len(want int) {
 			rf, ok := rt.MethodByName("Len")
 			if !ok {
 				logCall(o.a.t, "Len")
-				o.a.t.Fatalf("got [%v] for \"%s\" but it does not implement Len() int", o.value, o.label)
+				Fatalf(o.a.t, "got [%v] for \"%s\" but it does not implement Len() int", o.value, o.label)
 				return
 			}
 			rv := reflect.ValueOf(o.value)
@@ -112,7 +112,7 @@ func (o Operand) Len(want int) {
 			got := int(gotvs[0].Int())
 			if !o.operator.Apply(got, want) {
 				logCall(o.a.t, "Len")
-				o.a.t.Fatalf("got [%v] for \"%s\" but want [%d]", got, o.label, want)
+				Fatalf(o.a.t, "got [%v] for \"%s\" but want [%d]", got, o.label, want)
 			}
 		}
 	}()
@@ -120,6 +120,6 @@ func (o Operand) Len(want int) {
 	got := rv.Len()
 	if !o.operator.Apply(got, want) {
 		logCall(o.a.t, "Len")
-		o.a.t.Fatalf("got [%v] for \"%s\" but want [%d]", got, o.label, want)
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want [%d]", got, o.label, want)
 	}
 }

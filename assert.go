@@ -11,6 +11,18 @@ type testingT interface {
 	Log(args ...interface{})
 }
 
+// Fatalf calls Fatalf on a test instance t.
+// You can inject your own implementation of assert.testingT
+var Fatalf = func(t testingT, format string, args ...interface{}) {
+	t.Fatalf("%s", Scolorf(FatalColorSyntaxCode, format, args...))
+}
+
+// Log calls Log on a test instance t.
+// You can inject your own implementation of assert.testingT
+var Log = func(t testingT, args ...interface{}) {
+	t.Log(args...)
+}
+
 // testingA decorates a *testing.T to create an Operand using That(..) and do error logging
 type testingA struct {
 	t testingT

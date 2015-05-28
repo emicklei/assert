@@ -32,5 +32,5 @@ func logCall(t testingT, funcName string) {
 		lastFile = file
 
 	}
-	t.Log(buffer.String())
+	Log(t, buffer.String())
 }
