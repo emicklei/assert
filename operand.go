@@ -46,6 +46,8 @@ func (o Operand) IsKindOf(v interface{}) {
 	if leftType != rightType {
 		logCall(o.a.t, "IsKindOf")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [%v]", leftType, o.label, rightType)
+	} else {
+		Logf(o.a.t, "%s is kind of %v", o.label, rightType)
 	}
 }
 
@@ -89,6 +91,8 @@ func (o Operand) IsFalse() {
 	if o.operator.Apply(o.value, true) { // i.e fail if !false
 		logCall(o.a.t, "IsFalse")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [false]", o.value, o.label)
+	} else {
+		Logf(o.a.t, "%s = %v", o.label, o.value)
 	}
 }
 
