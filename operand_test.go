@@ -8,6 +8,7 @@ import (
 	"errors"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestAbsentMapValueEqualsInt(t *testing.T) {
@@ -25,6 +26,12 @@ func TestIntEqualsInt(t *testing.T) {
 
 func TestStringEqualsString(t *testing.T) {
 	testingA{t}.That("s", "abcd").Equals("abcd")
+}
+
+func TestEqualsTwoTimes(t *testing.T) {
+	t1 := new(time.Time)
+	t2 := new(time.Time)
+	testingA{t}.That("t", t1).Equals(t2)
 }
 
 func TestStringEqualsInt(t *testing.T) {
