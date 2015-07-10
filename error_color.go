@@ -18,7 +18,11 @@ var TerminalColorsEnabled = true
 
 // FatalColorSyntaxCode requires the syntax defined on https://github.com/wsxiaoys/terminal/blob/master/color/color.go .
 // Set to an empty string to disable coloring.
-var FatalColorSyntaxCode = "@{yB}"
+var FatalColorSyntaxCode = "@{wB}"
+
+// SuccessColorSyntaxCode requires the syntax defined on https://github.com/wsxiaoys/terminal/blob/master/color/color.go .
+// Set to an empty string to disable coloring.
+var SuccessColorSyntaxCode = "@{y}"
 
 // Scolorf returns a string colorized for terminal output using the syntaxCode (unless that's empty).
 // Requires the syntax defined on https://github.com/wsxiaoys/terminal/blob/master/color/color.go .

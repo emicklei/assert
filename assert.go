@@ -9,6 +9,7 @@ package assert
 type testingT interface {
 	Fatalf(string, ...interface{})
 	Log(args ...interface{})
+	Logf(format string, args ...interface{})
 }
 
 // Fatalf calls Fatalf on a test instance t.
@@ -21,6 +22,12 @@ var Fatalf = func(t testingT, format string, args ...interface{}) {
 // You can inject your own implementation of assert.testingT
 var Log = func(t testingT, args ...interface{}) {
 	t.Log(args...)
+}
+
+// Logf calls Log on a test instance t.
+// You can inject your own implementation of assert.testingT
+var Logf = func(t testingT, format string, args ...interface{}) {
+	t.Logf("%s", Scolorf(SuccessColorSyntaxCode, format, args...))
 }
 
 // testingA decorates a *testing.T to create an Operand using That(..) and do error logging

@@ -34,6 +34,8 @@ func (o Operand) Equals(want interface{}) {
 			o.value, o.value,
 			o.label,
 			want, want)
+	} else {
+		Logf(o.a.t, "%s = %v", o.label, o.value)
 	}
 }
 
@@ -77,6 +79,8 @@ func (o Operand) IsTrue() {
 	if o.operator.Apply(o.value, false) { // i.e fail if !true
 		logCall(o.a.t, "IsTrue")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [true]", o.value, o.label)
+	} else {
+		Logf(o.a.t, "%s = %v", o.label, o.value)
 	}
 }
 
