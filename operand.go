@@ -92,7 +92,7 @@ func (o Operand) IsFalse() {
 		logCall(o.a.t, "IsFalse")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [false]", o.value, o.label)
 	} else {
-		Logf(o.a.t, "%s = %v", o.label, o.value)
+		Logf(o.a.t, "%s != %v", o.label, o.value)
 	}
 }
 
