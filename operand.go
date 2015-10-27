@@ -4,7 +4,10 @@ package assert
 // Use of this source code is governed by a license
 // that can be found in the LICENSE file.
 
-import "reflect"
+import (
+	"reflect"
+	"time"
+)
 
 // Operand represent a value
 type Operand struct {
@@ -36,6 +39,36 @@ func (o Operand) Equals(want interface{}) {
 			want, want)
 	} else {
 		Logf(o.a.t, "%s = %v", o.label, o.value)
+	}
+}
+
+// Before checks whether the value we have got is before a moment.
+func (o Operand) Before(moment time.Time) {
+	left, ok := o.value.(time.Time)
+	if !ok {
+		logCall(o.a.t, "Before")
+		Fatalf(o.a.t, "got [%v](%T) for \"%s\" but want a Time", o.value, o.value, o.label)
+	}
+	if left.Before(moment) {
+		Logf(o.a.t, "%s is before %v", o.label, moment)
+	} else {
+		logCall(o.a.t, "Before")
+		Fatalf(o.a.t, "got unexpected [%v] for \"%s\"", o.value, o.label)
+	}
+}
+
+// After checks whether the value we have got is after a moment.
+func (o Operand) After(moment time.Time) {
+	left, ok := o.value.(time.Time)
+	if !ok {
+		logCall(o.a.t, "After")
+		Fatalf(o.a.t, "got [%v](%T) for \"%s\" but want a Time", o.value, o.value, o.label)
+	}
+	if left.After(moment) {
+		Logf(o.a.t, "%s is after %v", o.label, moment)
+	} else {
+		logCall(o.a.t, "After")
+		Fatalf(o.a.t, "got unexpected [%v] for \"%s\"", o.value, o.label)
 	}
 }
 

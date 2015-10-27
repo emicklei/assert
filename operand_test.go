@@ -60,6 +60,14 @@ func TestIsTrue(t *testing.T) {
 	Assert(t, "bool", true).IsTrue()
 }
 
+func TestBefore(t *testing.T) {
+	Assert(t, "now", time.Now()).Before(time.Now().Add(1 * time.Second))
+}
+
+func TestAfter(t *testing.T) {
+	Assert(t, "now", time.Now()).After(time.Now().Add(-1 * time.Second))
+}
+
 func TestIsFalse(t *testing.T) {
 	Assert(t, "bool", false).IsFalse()
 }
