@@ -53,7 +53,7 @@ func (o Operand) Before(moment time.Time) {
 		Logf(o.a.t, "%s is before %v", o.label, moment)
 	} else {
 		logCall(o.a.t, "Before")
-		Fatalf(o.a.t, "got unexpected [%v] for \"%s\"", o.value, o.label)
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want it before [%v]", o.value, o.label, moment)
 	}
 }
 
@@ -68,7 +68,7 @@ func (o Operand) After(moment time.Time) {
 		Logf(o.a.t, "%s is after %v", o.label, moment)
 	} else {
 		logCall(o.a.t, "After")
-		Fatalf(o.a.t, "got unexpected [%v] for \"%s\"", o.value, o.label)
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want it after [%v]", o.value, o.label, moment)
 	}
 }
 
