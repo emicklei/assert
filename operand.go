@@ -164,3 +164,34 @@ func (o Operand) Len(want int) {
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [%d]", got, o.label, want)
 	}
 }
+
+// IsEmpty checks that len(value) or value.Len() is zero.
+// It operates on Array, Chan, Map, Slice, or String and objects that implement Len() int.
+func (o Operand) IsEmpty() {
+	// panic catcher
+	defer func() {
+		if err := recover(); err != nil {
+			// try calling Len
+			rt := reflect.TypeOf(o.value)
+			rf, ok := rt.MethodByName("Len")
+			if !ok {
+				logCall(o.a.t, "IsEmpty")
+				Fatalf(o.a.t, "got [%v] for \"%s\" but it does not implement Len() int", o.value, o.label)
+				return
+			}
+			rv := reflect.ValueOf(o.value)
+			gotvs := rf.Func.Call([]reflect.Value{rv})
+			got := int(gotvs[0].Int())
+			if !o.operator.Apply(got, 0) {
+				logCall(o.a.t, "IsEmpty")
+				Fatalf(o.a.t, "got [%v] for \"%s\" but want [%d]", got, o.label, 0)
+			}
+		}
+	}()
+	rv := reflect.ValueOf(o.value)
+	got := rv.Len()
+	if !o.operator.Apply(got, 0) {
+		logCall(o.a.t, "IsEmpty")
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want [%d]", got, o.label, 0)
+	}
+}
