@@ -184,7 +184,7 @@ func (o Operand) IsEmpty() {
 			got := int(gotvs[0].Int())
 			if !o.operator.Apply(got, 0) {
 				logCall(o.a.t, "IsEmpty")
-				Fatalf(o.a.t, "got [%v] for \"%s\" but want [%d]", got, o.label, 0)
+				Fatalf(o.a.t, "got [%v] for len(\"%s\") but want > 0", got, o.label)
 			}
 		}
 	}()
@@ -192,6 +192,6 @@ func (o Operand) IsEmpty() {
 	got := rv.Len()
 	if !o.operator.Apply(got, 0) {
 		logCall(o.a.t, "IsEmpty")
-		Fatalf(o.a.t, "got [%v] for \"%s\" but want [%d]", got, o.label, 0)
+		Fatalf(o.a.t, "got [%v] for len(\"%s\") but want > 0", got, o.label)
 	}
 }
