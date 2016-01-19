@@ -87,6 +87,7 @@ func (o Operand) IsKindOf(v interface{}) {
 // IsNil checks whether the value is nil
 func (o Operand) IsNil() {
 	if o.operator.Apply(o.value, nil) {
+		Logf(o.a.t, "%s is nil", o.label)
 		return
 	} else {
 		// from github.com/go-check/check
@@ -106,6 +107,8 @@ func (o Operand) IsNotNil() {
 	if o.operator.Apply(o.value, nil) {
 		logCall(o.a.t, "IsNotNil")
 		Fatalf(o.a.t, "got unexpected [%v] for \"%s\"", o.value, o.label)
+	} else {
+		Logf(o.a.t, "%s is not nil", o.value)
 	}
 }
 
@@ -115,7 +118,7 @@ func (o Operand) IsTrue() {
 		logCall(o.a.t, "IsTrue")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [true]", o.value, o.label)
 	} else {
-		Logf(o.a.t, "%s = %v", o.label, o.value)
+		Logf(o.a.t, "%s is true", o.label)
 	}
 }
 
@@ -125,7 +128,7 @@ func (o Operand) IsFalse() {
 		logCall(o.a.t, "IsFalse")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [false]", o.value, o.label)
 	} else {
-		Logf(o.a.t, "%s != %v", o.label, o.value)
+		Logf(o.a.t, "%s is false", o.label)
 	}
 }
 
