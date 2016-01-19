@@ -118,7 +118,7 @@ func (o Operand) IsTrue() {
 		logCall(o.a.t, "IsTrue")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [true]", o.value, o.label)
 	} else {
-		Logf(o.a.t, "%s is True", o.label)
+		Logf(o.a.t, "%s is true", o.label)
 	}
 }
 
@@ -128,7 +128,7 @@ func (o Operand) IsFalse() {
 		logCall(o.a.t, "IsFalse")
 		Fatalf(o.a.t, "got [%v] for \"%s\" but want [false]", o.value, o.label)
 	} else {
-		Logf(o.a.t, "%s is False", o.label)
+		Logf(o.a.t, "%s is false", o.label)
 	}
 }
 
