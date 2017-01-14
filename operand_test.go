@@ -28,6 +28,10 @@ func TestStringEqualsString(t *testing.T) {
 	testingA{t}.That("s", "abcd").Equals("abcd")
 }
 
+func TestIntGreaterThanInt(t *testing.T) {
+	testingA{t}.That("i", 2).GreaterThan(1)
+}
+
 func TestEqualsTwoTimes(t *testing.T) {
 	t1 := new(time.Time)
 	t2 := new(time.Time)

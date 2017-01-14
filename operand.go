@@ -42,6 +42,21 @@ func (o Operand) Equals(want interface{}) {
 	}
 }
 
+// GreaterThan checks whether the value we have got is greater than to the value we want.
+func (o Operand) GreaterThan(want int) {
+	left, ok := o.value.(int)
+	if !ok {
+		logCall(o.a.t, "GreaterThan")
+		Fatalf(o.a.t, "got [%v](%T) for \"%s\" but want a Int", o.value, o.value, o.label)
+	}
+	if left > want {
+		Logf(o.a.t, "%d is greater than %v", left, want)
+	} else {
+		logCall(o.a.t, "GreaterThan")
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want it greater than [%v]", o.value, o.label, want)
+	}
+}
+
 // Before checks whether the value we have got is before a moment.
 func (o Operand) Before(moment time.Time) {
 	left, ok := o.value.(time.Time)
