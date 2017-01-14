@@ -43,17 +43,26 @@ func (o Operand) Equals(want interface{}) {
 }
 
 // GreaterThan checks whether the value we have got is greater than to the value we want.
-func (o Operand) GreaterThan(want int) {
+func (o Operand) GreaterThan(want interface{}) {
 	left, ok := o.value.(int)
 	if !ok {
 		logCall(o.a.t, "GreaterThan")
-		Fatalf(o.a.t, "got [%v](%T) for \"%s\" but want a Int", o.value, o.value, o.label)
+		Fatalf(o.a.t, "got [%v](%T) for \"%s\" but want an int", o.value, o.value, o.label)
 	}
-	if left > want {
-		Logf(o.a.t, "%d is greater than %v", left, want)
+	if !ok {
+		logCall(o.a.t, "GreaterThan")
+		Fatalf(o.a.t, "got [%v](%T) for \"%s\" but want an int", o.value, o.value, o.label)
+	}
+	right, ok := want.(int)
+	if !ok {
+		logCall(o.a.t, "GreaterThan")
+		Fatalf(o.a.t, "GreaterThen works for int only. Pull requests are welcome")
+	}
+	if left > right {
+		Logf(o.a.t, "%d is greater then %v", left, right)
 	} else {
 		logCall(o.a.t, "GreaterThan")
-		Fatalf(o.a.t, "got [%v] for \"%s\" but want it greater than [%v]", o.value, o.label, want)
+		Fatalf(o.a.t, "got [%v] for \"%s\" but want it greater than [%v]", o.value, o.label, right)
 	}
 }
 
