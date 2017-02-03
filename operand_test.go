@@ -44,8 +44,18 @@ func TestStringEqualsInt(t *testing.T) {
 	if len(r.args) == 0 {
 		t.Fail()
 	}
-	// tricky, we use Assertt to test an assert feature
+	// tricky, we use Assert to test an assert feature
 	testingA{t}.That("arg.1", r.args[2]).Equals("string")
+}
+
+func TestIntEqualsString(t *testing.T) {
+	r := newTestReporter()
+	testingA{r}.That("int", 1).Equals("1")
+	if len(r.args) == 0 {
+		t.Fail()
+	}
+	// tricky, we use Assert to test an assert feature
+	testingA{t}.That("arg.1", r.args[2]).Equals("int")
 }
 
 func TestStringIsKindOfString(t *testing.T) {
