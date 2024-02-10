@@ -28,6 +28,7 @@ func (o Operand) With(r RelationalOperator) Operand {
 
 // Equals checks whether the value we have got is equal to the value we want.
 func (o Operand) Equals(want interface{}) {
+	o.a.t.Helper()
 	if !o.operator.Apply(o.value, want) {
 		if reflect.DeepEqual(o.value, want) {
 			return
@@ -44,6 +45,7 @@ func (o Operand) Equals(want interface{}) {
 
 // GreaterThan checks whether the value we have got is greater than to the value we want.
 func (o Operand) GreaterThan(want interface{}) {
+	o.a.t.Helper()
 	left, ok := o.value.(int)
 	if !ok {
 		logCall(o.a.t, "GreaterThan")
@@ -68,6 +70,7 @@ func (o Operand) GreaterThan(want interface{}) {
 
 // Before checks whether the value we have got is before a moment.
 func (o Operand) Before(moment time.Time) {
+	o.a.t.Helper()
 	left, ok := o.value.(time.Time)
 	if !ok {
 		logCall(o.a.t, "Before")
@@ -83,6 +86,7 @@ func (o Operand) Before(moment time.Time) {
 
 // After checks whether the value we have got is after a moment.
 func (o Operand) After(moment time.Time) {
+	o.a.t.Helper()
 	left, ok := o.value.(time.Time)
 	if !ok {
 		logCall(o.a.t, "After")
@@ -98,6 +102,7 @@ func (o Operand) After(moment time.Time) {
 
 // IsKindOf checks whether the values are of the same type
 func (o Operand) IsKindOf(v interface{}) {
+	o.a.t.Helper()
 	leftType := reflect.TypeOf(o.value)
 	rightType := reflect.TypeOf(v)
 	if leftType != rightType {
@@ -110,6 +115,7 @@ func (o Operand) IsKindOf(v interface{}) {
 
 // IsNil checks whether the value is nil
 func (o Operand) IsNil() {
+	o.a.t.Helper()
 	if o.operator.Apply(o.value, nil) {
 		Logf(o.a.t, "%s is nil", o.label)
 		return
@@ -128,6 +134,7 @@ func (o Operand) IsNil() {
 
 // IsNotNil checks whether the value is nil
 func (o Operand) IsNotNil() {
+	o.a.t.Helper()
 	if o.operator.Apply(o.value, nil) {
 		logCall(o.a.t, "IsNotNil")
 		Fatalf(o.a.t, "got unexpected [%v] for \"%s\"", o.value, o.label)

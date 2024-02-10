@@ -16,18 +16,21 @@ type testingT interface {
 // Fatalf calls Fatalf on a test instance t.
 // You can inject your own implementation of assert.testingT
 var Fatalf = func(t testingT, format string, args ...interface{}) {
+	t.Helper()
 	t.Fatalf("%s", Scolorf(AssertFatalColorSyntaxCode, format, args...))
 }
 
 // Log calls Log on a test instance t.
 // You can inject your own implementation of assert.testingT
 var Log = func(t testingT, args ...interface{}) {
+	t.Helper()
 	t.Log(args...)
 }
 
 // Logf calls Log on a test instance t.
 // You can inject your own implementation of assert.testingT
 var Logf = func(t testingT, format string, args ...interface{}) {
+	t.Helper()
 	t.Logf("%s", Scolorf(AssertSuccessColorSyntaxCode, format, args...))
 }
 
