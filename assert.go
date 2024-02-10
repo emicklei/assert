@@ -10,6 +10,7 @@ type testingT interface {
 	Fatalf(string, ...interface{})
 	Log(args ...interface{})
 	Logf(format string, args ...interface{})
+	Helper()
 }
 
 // Fatalf calls Fatalf on a test instance t.
@@ -42,10 +43,12 @@ func (a testingA) That(label string, got interface{}) Operand {
 
 // That creates an Operand on the value we have got and describes the variable that is being testing.
 func That(t testingT, label string, got interface{}) Operand {
+	t.Helper()
 	return Operand{testingA{t}, label, got, equals{}}
 }
 
 // Assert creates an Operand on a value that needs to be checked.
 func Assert(t testingT, label string, value interface{}) Operand {
+	t.Helper()
 	return testingA{t}.That(label, value)
 }
